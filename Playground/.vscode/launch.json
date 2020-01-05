@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ParentAnimal03",
+            "request": "launch",
+            "mainClass": "e2.ParentAnimal03",
+            "projectName": "Playground"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Encapsulation01",
+            "request": "launch",
+            "mainClass": "e1.Encapsulation01",
+            "projectName": "Playground"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Encapsulation01",
+            "request": "launch",
+            "mainClass": "parent.Encapsulation01",
+            "projectName": "Playground"
+        }
+    ]
+}

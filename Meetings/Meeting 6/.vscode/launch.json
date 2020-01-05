@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Exceptions",
+            "request": "launch",
+            "mainClass": "project01.Exceptions",
+            "projectName": "Meeting 6_1bf99ff"
+        }
+    ]
+}

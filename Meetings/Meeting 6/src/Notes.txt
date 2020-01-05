@@ -1,0 +1,9 @@
+public class Notes {
+    public static void main(String[] args) {
+
+        /*
+            This will include stuff talked about
+        */
+
+    }
+}

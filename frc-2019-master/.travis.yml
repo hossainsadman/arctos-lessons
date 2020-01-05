@@ -1,0 +1,42 @@
+language: java
+
+jdk:
+  - oraclejdk11
+
+# The encrypted webhook URL
+env:
+  global:
+    secure: "uevP6Ub/OthNjCjfDRVQPYdo4iC0PudwRff2CQFE6MrlJhthnXGpaYA1sxEGPF27j77geS621BhN2FEjS6IAJ5cyk/my43RjlQBrDr+46rfqipYjkkho4xu7cNw8pJRS54sB90eZmIasMHT9UVEkhUF68+hAAaEpe2h9foDJTACh89g7RL1zaEweKoEjaSEa3YcBIOpRHpSeqPtqcoKWDOvXWhzFi0PwGiq+Q3YmnkMSOzAFJs3oVSv0GCCIuNPxsAmZMEQEUc5nJ27vVPbZM3QI/9rUsFvmJO2GOURUdIpvQaUdEP/8DaKHBJmgrF63ctmLrJlbosrAMZg5sbXwkLTold3dZympiiw8zXArZTuLHB59cefUY/fcif/icV05EKRMTEAY4Ydrlf3K8WqT3jOKEzUjGg2ilP4rgr9zBrChdTbJy5LBcbnq9y+tLlql95hKwPMfYKvpfbyiIgkFD8nPdlPMaO/XhNiIa+pImOXv64Y7EHjUlkeNwlbenlw9YrVem+Z1WeiSlncyu3cIziwhC7wJ2dwZgzxZ0SDi5qtdwAIJlFD0GXmNSxuyV5TgUdgzbnAJcp2kWqv7keP765FvQ2Ql/VGX8w7ccktsQmYvZ5c2wfNlAQN1k4hIGBYS4iCjrCWkC5e2C1M2iNzNuQQ+aA9bsRCNkluzJy82MPs="
+
+install: 
+  # chmod the wrapper to be executable
+  - sudo chmod +x ./gradlew
+  - ./gradlew --version
+
+script:
+  - ./gradlew build
+
+# Enable gradle cache
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+after_success:
+  - export SHORT_COMMIT=${TRAVIS_COMMIT:0:7}
+  - >
+    curl --request 'POST' 
+    --header 'Content-Type: text/plain; charset=utf-8' 
+    --data "&#9989; The latest commit pushed to **frc-2019** (commit *$SHORT_COMMIT* on branch *$TRAVIS_BRANCH*) has [**passed** CI checks on **$TRAVIS_JDK_VERSION**]($TRAVIS_JOB_WEB_URL)!"
+    $WEBHOOK_URL
+after_failure:
+  - export SHORT_COMMIT=${TRAVIS_COMMIT:0:7}
+  - >
+    curl --request 'POST' 
+    --header 'Content-Type: text/plain; charset=utf-8' 
+    --data "&#10060; The latest commit pushed to **frc-2019** (commit *$SHORT_COMMIT* on branch *$TRAVIS_BRANCH*) has [**failed** CI checks on **$TRAVIS_JDK_VERSION**]($TRAVIS_JOB_WEB_URL)!" 
+    $WEBHOOK_URL
